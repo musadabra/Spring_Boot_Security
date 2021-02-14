@@ -1,9 +1,10 @@
 # Spring_Boot_Security
+# SPRING SECURITY
 
-RESOURCE
+## RESOURCE
 baeldung.com/security-spring
 
-Authentication with Spring Security
+## Authentication with Spring Security
 
 Spring Security Form Login
 Spring Security – Basic Authentication (popular)
@@ -17,3 +18,11 @@ Extra Login Fields with Spring Security
 Spring Security Custom AuthenticationFailureHandler
 Prevent Brute Force Authentication Attempts with Spring Security
 Spring Security Login Page with React
+
+## Configuration for Form Login
+
+loginPage() – the custom login page
+loginProcessingUrl() – the URL to submit the username and password to
+defaultSuccessUrl() – the landing page after a successful login
+failureUrl() – the landing page after an unsuccessful login
+logoutUrl() – the custom logout
