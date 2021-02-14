@@ -20,7 +20,7 @@ Prevent Brute Force Authentication Attempts with Spring Security
 Spring Security Login Page with React
 
 ## Configuration for Form Login
-
+```python
 loginPage() – the custom login page
 loginProcessingUrl() – the URL to submit the username and password to
 defaultSuccessUrl() – the landing page after a successful login
