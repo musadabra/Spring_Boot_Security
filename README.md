@@ -28,8 +28,9 @@ loginProcessingUrl() – the URL to submit the username and password to
 defaultSuccessUrl() – the landing page after a successful login
 failureUrl() – the landing page after an unsuccessful login
 logoutUrl() – the custom logout
-```python
-## On Authentication Success Hander Implementation
+
+
+# On Authentication Success Hander Implementation
 
 ```python
 @Override
