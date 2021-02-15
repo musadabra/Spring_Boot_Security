@@ -32,7 +32,7 @@ logoutUrl() – the custom logout
 
 # On Authentication Success Hander Implementation
 
-```python
+```
 @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
 
@@ -44,4 +44,16 @@ logoutUrl() – the custom logout
             httpServletResponse.sendRedirect("/index");
         }
     }
+```
 
+
+## Configure Data Source Properties
+```
+server.port=8088
+
+spring.jpa.hibernate.ddl-auto=none
+spring.datasource.url=jdbc:mysql://localhost:3306/earning_spring_security?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+
+spring.datasource.username=root
+spring.datasource.password=
+```
