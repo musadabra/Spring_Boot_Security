@@ -32,6 +32,8 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
+//              PERMIT ALL FOR ASSETS FILES
+//                .antMatchers( "/assets/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/anonymous*").anonymous()
                 .antMatchers("/login*").permitAll()
