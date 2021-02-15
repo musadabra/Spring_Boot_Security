@@ -1,31 +1,29 @@
 package com.baeldung.demo.security;
 
+import com.baeldung.demo.security.userdetails.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.context.annotation.*;
+import org.springframework.security.authentication.dao.*;
+import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.*;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
-//@Configuration
-//@EnableWebSecurity
+@Configuration
+@EnableWebSecurity
 public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private AuthenticationSuccessHandler authenticationSuccessHandler;
 
-//    @Autowired
-//    public WebSecurityConfig(AuthenticationSuccessHandler authenticationSuccessHandler) {
-//        this.authenticationSuccessHandler = authenticationSuccessHandler;
-//    }
+    @Autowired
+    public SecSecurityConfig(AuthenticationSuccessHandler authenticationSuccessHandler) {
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
+    }
 
-    @Override
-    protected void configure(final AuthenticationManagerBuilder auth) throws Exception{
+//    @Override
+//    protected void configure(final AuthenticationManagerBuilder auth) throws Exception{
         // authentication manager (see below)
 //        auth.inMemoryAuthentication()
 //                .withUser("user1").password(passwordEncoder().encode("user1Pass")).roles("USER")
@@ -33,7 +31,32 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .withUser("user2").password(passwordEncoder().encode("user2Pass")).roles("USER")
 //                .and()
 //                .withUser("admin").password(passwordEncoder().encode("adminPass")).roles("ADMIN");
+//    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsServiceImpl();
     }
+
+    @Bean
+    protected BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setPasswordEncoder(passwordEncoder());
+
+        return authProvider;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider());
+    }
+
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
@@ -53,8 +76,6 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .loginPage("/login.html")
                 .successHandler(authenticationSuccessHandler)
                 .loginProcessingUrl("/perform_login")
-                .defaultSuccessUrl("/homepage.html", true)
-                .failureUrl("/login.html?error=true")
 //                .failureHandler(authenticationFailureHandler())
                 .and()
                 .logout()
@@ -62,9 +83,9 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID");
 //                .logoutSuccessHandler(logoutSuccessHandler());
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 }
