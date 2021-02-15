@@ -4,6 +4,8 @@
 ## RESOURCE
 baeldung.com/security-spring
 
+https://codenerve.com/spring-security-user-role-redirect/index.html
+
 ## Authentication with Spring Security
 
 Spring Security Form Login
@@ -26,3 +28,19 @@ loginProcessingUrl() – the URL to submit the username and password to
 defaultSuccessUrl() – the landing page after a successful login
 failureUrl() – the landing page after an unsuccessful login
 logoutUrl() – the custom logout
+
+## On Authentication Success Hander Implementation
+
+```python
+@Override
+    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+
+        Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+        System.out.println(roles);
+        if (roles.contains("ROLE_ADMIN")) {
+            httpServletResponse.sendRedirect("/admin");
+        } else {
+            httpServletResponse.sendRedirect("/index");
+        }
+    }
+
